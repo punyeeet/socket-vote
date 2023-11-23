@@ -27,6 +27,8 @@ io.on('connection', (socket) => {
     console.log('new user joined')
     var roomID = null;
 
+    socket.emit('connection_true');
+
     socket.on('join_room', (data) => {
         roomID = data.room_id;
 

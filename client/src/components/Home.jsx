@@ -21,14 +21,14 @@ const Home = () => {
     const [item, setItem] = useState('');
 
     const [topic, setTopic] = useState('');
-    
+
     const socket = useContext(SocketContext)
-    
+
     const id = useSelector((state) => state.roomid);
-    
+
     const dispatch = useDispatch();
-    
-    const [toastID , setToastID] = useState()
+
+    const [toastID, setToastID] = useState()
 
     const onJoin = (e) => {
         e.preventDefault()
@@ -103,7 +103,12 @@ const Home = () => {
     }
 
     useEffect(() => {
-    
+
+        socket.on('connection_true', () => {
+            if (toastID)
+                toast.update(toastID, { render: "Connected to backend !!!", type: "success", isLoading: false, autoClose: 5000 })
+            else toast("Connected to Backend")
+        })
 
         socket.on('err_roomid', () => {
             alert('Invalid Room ID');
@@ -116,21 +121,15 @@ const Home = () => {
 
     }, [socket])
 
-    useEffect(()=>{
+    useEffect(() => {
         // const id = toast.loading("Connecting to backend....")
+        let id = toast.loading("connecting to backend...")
+        setToastID(id);
 
-        if(socket.connected){
-            if(toastID)
-                toast.update(toastID,{ render: "Connected to backend !!!", type: "success", isLoading: false ,autoClose:5000})
-            else toast("Connected to Backend")
-        }else{
-            let id = toast.loading("connecting to backend...")
-            setToastID(id);
-        }
 
         // console.log(socket)
-        
-    },[socket.connected])
+
+    }, [])
 
     return (
         <>

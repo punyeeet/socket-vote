@@ -105,9 +105,7 @@ const Home = () => {
     useEffect(() => {
 
         socket.on('connection_true', () => {
-            if (toastID)
-                toast.update(toastID, { render: "Connected to backend !!!", type: "success", isLoading: false, autoClose: 5000 })
-            else toast("Connected to Backend")
+            toast("Connected to Backend")
         })
 
         socket.on('err_roomid', () => {
@@ -120,16 +118,6 @@ const Home = () => {
         })
 
     }, [socket])
-
-    useEffect(() => {
-        // const id = toast.loading("Connecting to backend....")
-        let id = toast.loading("connecting to backend...")
-        setToastID(id);
-
-
-        // console.log(socket)
-
-    }, [])
 
     return (
         <>

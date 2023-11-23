@@ -5,6 +5,8 @@ import { useSelector, useDispatch } from 'react-redux'
 import { setID } from '../redux/slices/roomid'
 import { SocketContext } from '../context/socket'
 import './Home.css'
+import { toast } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
 
 const Home = () => {
 
@@ -18,13 +20,15 @@ const Home = () => {
 
     const [item, setItem] = useState('');
 
-    const [topic,setTopic] = useState('');
-
+    const [topic, setTopic] = useState('');
+    
     const socket = useContext(SocketContext)
-
+    
     const id = useSelector((state) => state.roomid);
-
+    
     const dispatch = useDispatch();
+    
+    const [toastID , setToastID] = useState()
 
     const onJoin = (e) => {
         e.preventDefault()
@@ -41,7 +45,7 @@ const Home = () => {
     const onInsert = (e) => {
         e.preventDefault();
         const name = document.getElementById('itemName')
-        if(name.value===''){
+        if (name.value === '') {
             return;
         }
 
@@ -67,7 +71,7 @@ const Home = () => {
         // generate a random 4-digit number
         // join socket room 
         // send the votables to backend
-        if(votables.length===0){
+        if (votables.length === 0) {
             alert("Please insert atleast one Votable Option !")
             return;
         }
@@ -95,82 +99,104 @@ const Home = () => {
         setVotables([]);
         setTopic('');
         setCreateRoom(false);
-        
+
     }
 
-    useEffect(()=>{
-        socket.on('connected_to_backend',()=>{
-            
-        })
+    useEffect(() => {
+    
 
-        socket.on('err_roomid',()=>{
+        socket.on('err_roomid', () => {
             alert('Invalid Room ID');
             setRoomID('');
         })
 
-        socket.on('connected',(data)=>{
+        socket.on('connected', (data) => {
             dispatch(setID(data));
         })
 
-    },[socket])
+    }, [socket])
+
+    useEffect(()=>{
+        // const id = toast.loading("Connecting to backend....")
+
+        if(socket.connected){
+            if(toastID)
+                toast.update(toastID,{ render: "Connected to backend !!!", type: "success", isLoading: false })
+            else toast("Connected to Backend")
+        }else{
+            let id = toast.loading("connecting to backend...")
+            setToastID(id);
+        }
+
+        // console.log(socket)
+        
+    },[socket.connected])
 
     return (
         <>
             {
-            !id ? 
-            (<div className='home-container'>
-                <div className='home-title'>
-                    <h1>Vote-in-Meet</h1>
-                </div>
-                <div className='home-btns'>
-                    <button onClick={() => setCreateRoom(true)}>Create Room</button>
-        
-                    <button onClick={() => setEnterRoom(true)}>Join Room</button>
-                </div>
-    
-                <Popup trigger={enterRoom} setTrigger={setEnterRoom} closeHandler={()=>setRoomID('')}>
-                    <form>
-                        <input type='text' placeholder='RoomID' id='roomid' value={roomID} onChange={(e) => setRoomID(e.target.value)}></input>
-    
-                        <button onClick={onJoin} type='submit' className='join-btn'>JOIN</button>
-                    </form>
-                </Popup>
-    
-                <Popup trigger={createRoom} setTrigger={setCreateRoom} closeHandler={()=>{setVotables([]); setTopic('')}} >
-                    <form>
-                        <input type='text' placeholder='Topic' id='topicName' onChange={(e) => setTopic(e.target.value)}></input>
+                !id ?
+                    (<div className='home-container'>
+                        <div className='home-title'>
+                            <h1>Vote-in-Meet</h1>
+                            <div className='home-info'>
+                                <p>
+                                    Create your own private rooms and share the room code with your peers. Vote on any topic in Real-time and see the live results.
+                                </p>
+                                <p>
+                                    The website uses Socket connection to enable fast and real-time update on the created poll.
+                                </p>
+                            </div>
+                        </div>
+                        <div className='home-btns'>
+                            <button onClick={() => setCreateRoom(true)}>Create Room</button>
 
-                        <input type='text' placeholder='Item' id='itemName' onChange={(e) => setItem(e.target.value)}></input>
-    
-                        <button onClick={onInsert} >Insert</button>
-    
-                        {
-                            votables.map((el, index) => {
-                                return (
-                                    <>
-                                    <div className='items-holder' key={index}>
-                                    {/* {console.log(index)} */}
-                                        <p>
-                                            {el}
-                                            {/* <button onClick={(e)=>{e.preventDefault;removeItem(index)}}>
+                            <button onClick={() => setEnterRoom(true)}>Join Room</button>
+                        </div>
+
+                        <Popup trigger={enterRoom} setTrigger={setEnterRoom} closeHandler={() => setRoomID('')}>
+                            <form>
+                                <input type='text' placeholder='RoomID' id='roomid' value={roomID} onChange={(e) => setRoomID(e.target.value)}></input>
+
+                                <button onClick={onJoin} type='submit' className='join-btn'>JOIN</button>
+                            </form>
+                        </Popup>
+
+                        <Popup trigger={createRoom} setTrigger={setCreateRoom} closeHandler={() => { setVotables([]); setTopic('') }} >
+                            <form>
+                                <input type='text' placeholder='Topic' id='topicName' onChange={(e) => setTopic(e.target.value)}></input>
+
+                                <input type='text' placeholder='Item' id='itemName' onChange={(e) => setItem(e.target.value)}></input>
+
+                                <button onClick={onInsert} >Insert</button>
+
+                                {
+                                    votables.map((el, index) => {
+                                        return (
+
+                                            <div className='items-holder' key={index}>
+                                                {/* {console.log(index)} */}
+                                                <p>
+                                                    {el}
+                                                    {/* <button onClick={(e)=>{e.preventDefault;removeItem(index)}}>
                                             del
                                             </button> */}
-                                        </p>
-                                    </div>
-                                    </>
-                                )
-                            })
-                        }
-    
-                        <button onClick={roomCreation} type='submit' className='join-btn'>JOIN</button>
-    
-    
-                    </form>
-                </Popup>
-    
-            </div>) : (
-                <Dashboard/>
-            )
+                                                </p>
+                                            </div>
+
+                                        )
+                                    })
+                                }
+
+                                <button onClick={roomCreation} type='submit' className='join-btn'>JOIN</button>
+
+
+                            </form>
+                        </Popup>
+
+                    </div>) : (
+                        <Dashboard />
+                    )
             }
 
         </>

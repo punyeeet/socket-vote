@@ -20,6 +20,19 @@
     -webkit-text-stroke-color: black;
 }
 
+
+.home-info{
+    font-family: 'Roboto Mono', monospace;
+    font-size: medium;
+    border: 2px solid black;
+    border-radius: 2rem;
+    height: fit-content;
+    width: 70%;
+    margin: auto;
+    font-weight: bolder;
+    background-color: white;
+}
+
 .home-title {}
 
 .home-btns {}

@@ -6,6 +6,7 @@ import { useSelector,useDispatch } from 'react-redux'
 import { setID } from './redux/slices/roomid'
 import { SocketContext } from './context/socket'
 import Home from './components/Home'
+import { ToastContainer } from 'react-toastify';
 
 
 function App() {
@@ -72,6 +73,7 @@ function App() {
   return (
     <>
       <Home/>
+      <ToastContainer />
     </>
   )
 }

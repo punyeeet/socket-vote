@@ -77,7 +77,7 @@ const Dashboard = () => {
                     <>
                     <h1>{votables[0].topic}</h1>
                     {votables.map((item, index)=>
-                    <div className="vote-chart">
+                    <div className="vote-chart" key={index}>
                         <div className="bar" style={{ width: `${item.votes*100 / total}%` }}>
                             {item.votes > 0 && <div className="label">{item.votes}</div>}
                             {/* {console.log(total)} */}

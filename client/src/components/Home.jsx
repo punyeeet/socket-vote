@@ -121,7 +121,7 @@ const Home = () => {
 
         if(socket.connected){
             if(toastID)
-                toast.update(toastID,{ render: "Connected to backend !!!", type: "success", isLoading: false })
+                toast.update(toastID,{ render: "Connected to backend !!!", type: "success", isLoading: false ,autoClose:5000})
             else toast("Connected to Backend")
         }else{
             let id = toast.loading("connecting to backend...")

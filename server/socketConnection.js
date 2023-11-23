@@ -4,7 +4,7 @@ const {Server} = require('socket.io')
 socketConnection = (server)=>{
     const io = new Server(server,{
         cors:{
-            origin: "voteinmeet.netlify.app"
+            origin: "https://voteinmeet.netlify.app"
         }
     })
 

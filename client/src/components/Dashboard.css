@@ -1,0 +1,105 @@
+.dashboard-container {
+    position: fixed;
+    top: 0;
+    margin: 0;
+    height: 100%;
+    width: 100%;
+    background-color: #b8c0ff;
+    display: grid;
+    font-family: 'Roboto Mono', monospace;
+
+}
+
+.dashboard-nav button {
+    height: 2rem;
+    width: fit-content;
+    border: black 2px solid;
+    border-radius: 3rem;
+    font-weight: bold;
+}
+
+.dashboard-nav button:hover {
+    cursor: pointer;
+    background-color: #FFD6FF;
+    transform: scale(1.1);
+    transition: 500ms;
+}
+
+.dashboard-nav {
+    display: flex;
+    background-color: #C8B6FF;
+    height: 30%;
+}
+
+.nav-title {
+    font-size: 2rem;
+    font-weight: bolder;
+    background-image: conic-gradient(#FFD6FF, #E7C6FF, #B8C0FF);
+    color: transparent;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: black;
+    display: inline;
+    margin: auto;
+}
+
+.title-container {
+    display: flex;
+    width: 40%;
+    background-color: #9e7efd;
+}
+
+.dashboard-nav ul {
+    list-style-type: none;
+    margin: 0;
+    margin-right: 0;
+    padding: 0;
+    display: flex;
+    width: 100%;
+}
+
+.dashboard-nav li {
+    margin: auto;
+    margin: auto 5rem;
+    width: 20%;
+    /* border: black 2px solid; */
+}
+
+/* test css */
+.votables-container{
+    width: 80%;
+    margin: 20px;
+    /* border: 2px solid black; */
+    box-shadow:  #9e7efd;
+}
+.vote-chart {
+    width: 75%;
+    margin: 20px;
+    /* border: 2px solid black; */
+  }
+
+.vote-chart .item-name{
+    font-weight: bold;
+}
+  
+  .bar {
+    height: 30px;
+    background-color: #3498db;
+    transition: width 0.3s ease-in-out;
+    position: relative;
+  }
+  
+  .label {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #fff;
+  }
+  
+  .controls {
+    margin-top: 10px;
+  }
+  
+

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>Socket.IO chat</title>
+    <style>
+      body { margin: 0; padding-bottom: 3rem; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+
+      #form { background: rgba(0, 0, 0, 0.15); padding: 0.25rem; position: fixed; bottom: 0; left: 0; right: 0; display: flex; height: 3rem; box-sizing: border-box; backdrop-filter: blur(10px); }
+      #input { border: none; padding: 0 1rem; flex-grow: 1; border-radius: 2rem; margin: 0.25rem; }
+      #input:focus { outline: none; }
+      #form > button { background: #333; border: none; padding: 0 1rem; margin: 0.25rem; border-radius: 3px; outline: none; color: #fff; }
+
+      #messages { list-style-type: none; margin: 0; padding: 0; }
+      #messages > li { padding: 0.5rem 1rem; }
+      #messages > li:nth-child(odd) { background: #efefef; }
+    </style>
+  </head>
+  <body>
+    <!-- <ul id="messages"></ul>
+    <form id="form" action="">
+      <input id="input" autocomplete="off" /><button>Send</button>
+    </form> -->
+    <button id='btn-1'>Congress</button>
+    <p id="congress"></p>
+    <br>
+    <button id="btn-2">BJP\</button>
+    <p id="bjp"></p>
+    <script src="/socket.io/socket.io.js"></script>
+<script>
+  const socket = io();
+
+  // const form = document.getElementById('form');
+  // const input = document.getElementById('input');
+
+  // form.addEventListener('submit', (e) => {
+  //   e.preventDefault();
+  //   if (input.value) {
+  //     socket.emit('chat message', input.value);
+  //     input.value = '';
+  //   }
+  // });
+  const btn1 = document.getElementById('btn-1');
+  const btn2 = document.getElementById('btn-2');
+  const p1 = document.getElementById('congress');
+  const p2 = document.getElementById('bjp');
+    console.log(btn1)
+  btn1.addEventListener('click',(e)=>{
+    e.preventDefault
+
+    socket.emit('vote1','+1');
+    
+    
+  })
+  btn2.addEventListener('click',(e)=>{
+    e.preventDefault
+
+    socket.emit('vote2','+1');
+  })
+
+  socket.on('inc1',(msg)=>{
+    console.log(msg)
+    // if(msg.localeCompare('inc1')==0){
+    //   p1.innerText=msg
+    // }else if(msg.localeCompare('inc2')==0){
+    //   p2.innerText=msg
+    // }
+    p1.innerText = msg
+  })
+  socket.on('any',(msg)=>{
+    p1.textContent = msg
+  })
+  socket.on('inc2',(msg)=>{
+    console.log(msg)
+    p2.innerText = msg
+  })
+</script>
+  </body>
+</html>
